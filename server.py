@@ -30,7 +30,7 @@ def add():
         with sql.connect("database.db") as con:
           cur = con.cursor()
 
-          cur.execute("INSERT INTO users (name,grade) VALUES (?,?)",(name,grade) )
+          cur.execute("INSERT INTO students (name,grade) VALUES (?,?)",(name,grade) )
 
           con.commit()
           msg = "Record successfully added"
@@ -54,7 +54,7 @@ def list():
       con.row_factory = sql.Row
 
       cur = con.cursor()
-      cur.execute("select * from users")
+      cur.execute("select * from students")
 
       result_list = cur.fetchall();
       print(result_list)
