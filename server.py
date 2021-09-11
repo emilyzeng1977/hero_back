@@ -108,7 +108,6 @@ def list():
             objects_list.append(d)
 
         objects_list.sort(key=lambda  item: item['en'] + item['ts'] + item['math'], reverse=True)
-
         return json.dumps(objects_list), 200, {'ContentType':'application/json'}
 
     except:
