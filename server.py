@@ -26,12 +26,6 @@ def update():
         ts = content['ts']
         math = content['math']
 
-        print(id)
-        print(name)
-        print(en)
-        print(ts)
-        print(math)
-
         d = collections.OrderedDict()
 
         with sql.connect("database.db") as con:
@@ -94,7 +88,6 @@ def list():
         cur.execute("select * from students")
 
         result_list = cur.fetchall();
-        print(result_list)
         # return render_template("list.html",rows = rows)
 
         objects_list = []
@@ -108,6 +101,9 @@ def list():
             objects_list.append(d)
 
         objects_list.sort(key=lambda  item: item['en'] + item['ts'] + item['math'], reverse=True)
+        for i in range(len(objects_list)):
+            print(i)
+
         return json.dumps(objects_list), 200, {'ContentType':'application/json'}
 
     except:
@@ -129,10 +125,7 @@ def getStudent(id=None):
         # return render_template("list.html",rows = rows)
         d = collections.OrderedDict()
         for row in result_list:
-            print(id)
-            print(row[0])
             if str(row[0]) == id:
-                print('find')
                 d['id'] = row[0]
                 d['name'] = row[1]
                 d['en'] = row[2]
@@ -151,22 +144,12 @@ def delete(id=None):
     try:
         con = sql.connect("database.db")
         con.row_factory = sql.Row
-
         cur = con.cursor()
-        print("001")
-        # cur.execute("delete from students where id = %d", (id))
 
         delstatmt = "DELETE FROM `students` WHERE id = ?"
         cur.execute(delstatmt, (id,))
-
-        print("002")
         con.commit()
 
-        # result_list = cur.fetchall();
-
-        # cur.execute("DELETE FROM students")
-
-        print("003")
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
     except:
